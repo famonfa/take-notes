@@ -1,14 +1,12 @@
-import { GeistSans } from "geist/font/sans";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import Providers from "./providers";
+const inter = Inter({ subsets: ["latin"] });
 import "./globals.css";
-
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+import ThemeToggle from "./components/ThemeToggle";
 
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Take Notes",
 };
 
 export default function RootLayout({
@@ -17,11 +15,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
-          {children}
-        </main>
+    <html style={{ scrollBehavior: "smooth" }} lang="en">
+      <body style={{ padding: 0 }} className={inter.className}>
+        <Providers>
+          <div className="h-screen flex">
+            <div className="w-full">{children}</div>
+            <div className="absolute bottom-0 right-0 p-8">
+              <ThemeToggle />
+            </div>
+          </div>
+        </Providers>
       </body>
     </html>
   );
